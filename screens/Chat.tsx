@@ -1,21 +1,36 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, TextInput } from 'react-native';
 import {COLORS} from "../constants";
 import { globalContext } from '../App';
+import Icon, {Icons} from '../components/icons';
 
 export default function Chat(props: any) {
 
     const [messages, setMessages] = useState('');
 
+    //todo ws
+
     return (
         <globalContext.Consumer>
         {(context) => {
-            return <View style={styles.appContainer}>
-                <Text style={styles.headerText}>ЧАТ</Text>
-                <ScrollView>
-                <Text>{messages}</Text>
-                <TextInput multiline editable onChangeText={text => setMessages(text)} style={styles.input}/>
-                </ScrollView>
+            const theme = context.globalState.theme;
+            const borderColor = {borderColor: theme === 'dark' ? COLORS.particlesDark : COLORS.particlesLight};
+            const chatContainerStyle = {...styles.chatContainer, backgroundColor: theme === 'dark' ? COLORS.backgroundDefaultDark : COLORS.backgroundDefaultLight};
+            const chatWindowStyle = {...styles.chatWindow, backgroundColor: theme === 'dark' ? COLORS.containerHeaderDark : COLORS.containerHeaderLight, ...borderColor};
+            const chatInputContainerStyle = {...styles.chatInputContainer, backgroundColor: theme === 'dark' ? COLORS.containerContentDark : COLORS.containerContentLight, ...borderColor};
+            const chatInputStyle = {...styles.chatInput, ...borderColor};
+            const chatMessageStyle = {...styles.chatMessage, ...borderColor, backgroundColor: theme === 'dark' ? COLORS.containerContentDark : COLORS.containerContentLight, color: theme === 'dark' ? COLORS.textDark : COLORS.textLight};
+            return <View style={chatContainerStyle}>
+                <View style={chatWindowStyle}>
+                    <ScrollView>
+                        <Text style={chatMessageStyle}>todo chat</Text>
+                        <Text style={chatMessageStyle}>test message</Text>
+                    </ScrollView>
+                </View>
+                <View style={chatInputContainerStyle}>
+                    <TextInput multiline editable onChangeText={text => setMessages(text)} style={chatInputStyle}/>
+                    <Icon type={Icons.FontAwesome} name="paper-plane" color={theme === 'dark' ? COLORS.particlesDark : COLORS.particlesLight}/>
+                </View>
             </View>
         }}
         </globalContext.Consumer>
@@ -23,39 +38,30 @@ export default function Chat(props: any) {
 }
 
 const styles = StyleSheet.create({
-    appContainer: {
+    chatContainer: {
         flex: 1,
         paddingTop: 70,
         paddingHorizontal: 16,
-        backgroundColor: COLORS.backgroundDefault
     },
-    eventContainer: {
-        backgroundColor: COLORS.backgroundContainer,
+    chatWindow: {
+        borderWidth: 1,
+        height: '80%'
+    },
+    chatMessage: {
+        borderWidth: 1,
+        borderRadius: 10,
+        margin: 10,
+        padding: 8,
+        maxWidth: '50%',
+        fontSize: 16,
+    },
+    chatInputContainer: {
+        borderWidth: 1,
         padding: 10,
-        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
-    listContainer: {
-        height: 'auto'
-    },
-    headerText: {
-        fontFamily: 'Arial',
-        fontSize: 22,
-        color: 'white',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginBottom: 20
-    },
-    eventTitle: {
-        fontFamily: 'Arial',
-        fontSize: 20,
-        color: COLORS.borders
-    },
-    eventText: {
-        fontFamily: 'Arial',
-        fontSize: 18,
-    },
-    input: {
-        backgroundColor: 'white',
-        borderBottomColor: COLORS.borders
+    chatInput: {
+        borderBottomWidth: 1,
     }
 });

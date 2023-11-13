@@ -1,69 +1,31 @@
-import { View, Image, Text, StyleSheet, Button, NativeSyntheticEvent, Dimensions, Pressable, AppRegistry } from "react-native";
-import { WebView, WebViewNavigation } from "react-native-webview";
-import {MutableRefObject, useRef, useState} from "react";
+import { View, Image, Text, StyleSheet, Dimensions, Pressable, AppRegistry, TextInput } from "react-native";
 import { globalContext } from "../App";
 import { testUser, COLORS } from "../constants";
-import { WebViewMessage } from "react-native-webview/lib/WebViewTypes";
+import _ from 'lodash';
+import React from "react";
 
-export default function Auth(props: any) {
+export default function Auth() {
 
-    const [authType, setAuthType] = useState('');
-
-    let webViewRef: MutableRefObject<any> = useRef();
-    const uri = 'https://some-develop.blabla.com/hr/auth';
-    const userinfo = 'https://some-develop.blabla.com/api/userInfo';
-
-    const CHECK_COOKIE: string = `ReactNativeWebView.postMessage("Cookie: " + document.cookie + "DECODEDCOOKIE->" + decodeURIComponent(document.cookie));true;`;
-
-    const onNavigationStateChange = (navigationState: WebViewNavigation) => {
-        if(webViewRef.current) {
-            webViewRef.current.injectJavaScript('window.fetch = async (...args) => {let [resource, config] = args;ReactNativeWebView.postMessage("REQUEST-RESOURCE->" + resource + "REQ-CONFIG->", config);const response = await originalFetch(resource, config);eactNativeWebView.postMessage("RESPONSE->" + resource);return response;};true;')
+    const setTestData = (field: string, value: string) => {
+        if (field === 'login') {
+            testUser.name = value;
         }
-    };
-
-    const onMessage = async (event: NativeSyntheticEvent<WebViewMessage>) => {
-        const { data } = event.nativeEvent;
-        console.log('AUTH-ONMESSAGE->', data);
-        if (data.includes('Cookie:')) {
-            console.log('COOKIE->', data);
-            //setAuthType(data);
-        }
-    };
+    }
 
     return (
         <globalContext.Consumer>
         {(context) => {
-            const inactiveColor = context.globalState.theme === 'light' ? COLORS.inactiveLight : COLORS.inactive;
-            const activeColor = context.globalState.theme === 'light' ? COLORS.activeLight : COLORS.active;
-            const backgroundContainerColor = context.globalState.theme === 'light' ? COLORS.backgroundContainerLight : COLORS.backgroundContainer;
-            return <View style={{...styles.authContainer, backgroundColor: context.globalState.theme === 'light' ? COLORS.backgroundDefaultLight : COLORS.backgroundDefault}}>
+            
+            console.log('AUTH-CONTEXT->', context);
+
+            return <View style={{...styles.authContainer, backgroundColor: COLORS.backgroundDefaultLight}}>
                 <Image source={require("../assets/logo1.png")} style={styles.authLogo} />
                 <Text style={styles.authTitle}>АВТОРИЗАЦИЯ</Text>
-                <Pressable onPress={() => setAuthType('portal')} style={{...styles.authButton, backgroundColor: backgroundContainerColor}}>
-                    <Text>через портал</Text>
+                <TextInput style={styles.textInput} placeholder='почта' onChangeText={(value) => setTestData('login', value)}/>
+                <TextInput style={styles.textInput} placeholder='пароль' onChangeText={(value) => setTestData('pass', value)}/>
+                <Pressable onPress={() => context.setUser(testUser)} style={{...styles.authButton, backgroundColor: COLORS.backgroundContainerLight}}>
+                    <Text>ВОЙТИ</Text>
                 </Pressable>
-                <Text style={styles.authTitle}>ИЛИ</Text>
-                <Pressable onPress={() => setAuthType('telegram')} style={{...styles.authButton, backgroundColor: backgroundContainerColor}}>
-                    <Text>с помощью UUID</Text>
-                </Pressable>
-                <Pressable onPress={() => context.setUser(testUser)} style={{...styles.authButton, backgroundColor: backgroundContainerColor}}>
-                    <Text>Войти с тестовыми данными</Text>
-                </Pressable>
-                {authType === 'portal' ? <View style={styles.authModal}>
-                    <WebView
-                        ref={webViewRef}
-                        source={{uri: uri}}
-                        style={styles.authWebView}
-                        injectedJavaScriptBeforeContentLoaded="
-                        window.ReactNativeWebView.postMesssage('Cookies before load' + document.cookies);
-                        "
-                        onNavigationStateChange={onNavigationStateChange}
-                        onMessage={onMessage}
-                    />
-                </View> : authType === 'telegram' ? <View style={{...styles.authModal, backgroundColor: backgroundContainerColor}}>
-                    <Text>UUID авторизация пока не готова</Text>
-                </View> : null}
-                {['portal', 'telegram'].includes(authType) ? <View style={styles.closeAuthBtn}><Button color="white" title="X" onPress={() => setAuthType('')} /></View> : null}
             </View>
         }}
         </globalContext.Consumer>
@@ -83,8 +45,16 @@ const styles = StyleSheet.create({
         marginBottom: '10%'
     },
     authTitle: {
-        fontFamily: 'Arial',
-        fontSize: 16
+        fontFamily: 'monospace',
+        fontSize: 18
+    },
+    textInput: {
+        width: '50%',
+        fontSize: 16,
+        borderBottomWidth: 2,
+        borderBottomColor: 'grey',
+        paddingBottom: 1,
+        marginTop: 10
     },
     authButton: {
         padding: 10,
@@ -113,7 +83,7 @@ const styles = StyleSheet.create({
         right: 20,
         //padding: 5,
         borderRadius: 5,
-        backgroundColor: COLORS.backgroundDefault,
+        backgroundColor: COLORS.backgroundDefaultLight,
     },
     authWebView: {
         width: Dimensions.get('screen').width,

@@ -4,6 +4,7 @@ import {StatusBar} from "expo-status-bar";
 import Auth from "./screens/Auth";
 import {testUser, COLORS} from './constants'
 import Navigator from './components/navigator';
+import React from 'react';
 
 const initialState = {
     theme: 'dark',
@@ -14,16 +15,18 @@ const initialState = {
 
 //реактовский useReducer для работы с контекстом
 const reducer = (state: any, action: any) => {
+    console.log('REDUCER->', action, state);
+    let newState = {...state};
     switch (action.type) {
         case 'setUser':
-            let newState = {...state};
             newState.user = action.payload;
             newState.authorized = true;
             return newState;
         case 'setEvents':
             return {events: action.payload, ...state};
         case 'changeTheme':
-            return {theme: action.payload, ...state};
+            newState.theme = action.payload;
+            return newState;
         default:
             return state
     }
@@ -41,9 +44,9 @@ export const globalContext = createContext({
 export default function App() {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    //console.log('APPSTATE->', state);
+    console.log('APPSTATE->', state);
   return (
-      <View style={{...styles.appContainer, backgroundColor: state.theme === 'light' ? COLORS.backgroundDefaultLight : COLORS.backgroundDefault}}>
+      <View style={{...styles.appContainer, backgroundColor: state.theme === 'light' ? COLORS.backgroundDefaultLight : COLORS.backgroundDefaultDark}}>
           <globalContext.Provider value={{
               globalState: state,
               setUser: (user: any) => {dispatch({type: 'setUser', payload: user})},
@@ -61,5 +64,7 @@ const styles = StyleSheet.create({
   appContainer: {
       height: '100%',
       width: '100%',
+      margin: 0,
+      padding: 0
   },
 });

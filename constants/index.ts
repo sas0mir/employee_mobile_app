@@ -4,15 +4,15 @@ export interface IListItem {
 }
 
 export const testUser = {
-    email: "user_email@gmail.com",
+    email: "ssmirnov@i-novus.ru",
     email_verified: false,
     employee_id: 235,
-    family_name: "Hampton",
-    given_name: "Jeremiah",
+    family_name: "Смирнов",
+    given_name: "Станислав",
     id: 12,
-    name: "J Hampton",
+    name: "Станислав Смирнов",
     picture: "/9j/4AAQSkZJRgABAgEASABIAAD/2wBDAAEBAQEBAQEBAQEBA",
-    preferred_username: "jhamp",
+    preferred_username: "ssmirnov",
     roles: ['инженер - программист'],
     sub: "264bb918-c4f1-4160-996e-e18c90f8cf8f"
 }
@@ -26,9 +26,9 @@ export const testEvents = [
         "end_date":"2022-11-16",
         "status":2,
         "data":{
-            "hr":"blabla1@icloud.com",
-            "mentor":{"id":"blabla1@icloud.com","name":"HR name"},
-            "dep_head":"blabla2@icloud.com"
+            "hr":"latnabaeva@i-novus.ru",
+            "mentor":{"id":"eabdrahmanova@i-novus.ru","name":"Абдрахманова Эндже Назиповна"},
+            "dep_head":"esadykov@i-novus.ru"
         },
         "created_at":"2022-11-16T12:43:18.782Z",
         "updated_at":"2022-11-16T12:43:24.183Z",
@@ -43,7 +43,7 @@ export const testEvents = [
                 "status":2,
                 "data":{
                     "jira":""
-                    ,"task":"Написать приветственное письмо в группу или в почту, кратко расписать свои увлечения, хобби, опыт работы",
+                    ,"task":"Написать приветственное письмо в группу Ай-Новус или в почту, кратко расписать свои увлечения, хобби, опыт работы, почему выбрал Ай-Новус",
                     "description":"Задание 1 -  Знакомство с сотрудниками"
                 },
                 "created_at":"2022-11-16T12:43:18.829Z",
@@ -58,7 +58,7 @@ export const testEvents = [
                 "end_date":"2022-11-23",
                 "status":1,
                 "data":{
-                    "jira":"https://jira.blabla.com/browse/ONBOARDING-1",
+                    "jira":"https://jira.i-novus.ru/browse/ONBOARDING-1",
                     "description":"Задание 2 - Знакомство с программным обеспечением и окружением"
                 },
                 "created_at":"2022-11-16T12:43:18.850Z",
@@ -73,7 +73,7 @@ export const testEvents = [
                 "end_date":"2022-11-28",
                 "status":1,
                 "data":{
-                    "jira":"https://jira.blabla.com/browse/ONBOARDING-2",
+                    "jira":"https://jira.i-novus.ru/browse/ONBOARDING-2",
                     "description":"Задание 3 - Велком-тренинг"
                 },
                 "created_at":"2022-11-16T12:43:18.870Z",
@@ -88,7 +88,7 @@ export const testEvents = [
                 "end_date":"2022-12-05",
                 "status":1,
                 "data":{
-                    "jira":"https://jira.blabla.com/browse/ONBOARDING-3",
+                    "jira":"https://jira.i-novus.ru/browse/ONBOARDING-3",
                     "description":"Задание 4,5 - Книга сотрудника"
                 },
                 "created_at":"2022-11-16T12:43:18.890Z",
@@ -103,7 +103,7 @@ export const testEvents = [
                 "end_date":"2022-12-26",
                 "status":1,
                 "data":{
-                    "jira":"https://jira.blabla.com/browse/ONBOARDING-4",
+                    "jira":"https://jira.i-novus.ru/browse/ONBOARDING-4",
                     "description":"Задание 6 - Знакомство с руководителем"
                 },
                 "created_at":"2022-11-16T12:43:18.910Z",
@@ -118,7 +118,7 @@ export const testEvents = [
                 "end_date":"2023-01-16",
                 "status":1,
                 "data":{
-                    "jira":"https://jira.blabla.com/browse/ONBOARDING-4",
+                    "jira":"https://jira.i-novus.ru/browse/ONBOARDING-4",
                     "description":"Задание 7 - Знакомство с ГД"
                 },
                 "created_at":"2022-11-16T12:43:18.933Z",
@@ -133,7 +133,7 @@ export const testEvents = [
                 "end_date":"2023-02-06",
                 "status":1,
                 "data":{
-                    "jira":"https://jira.blabla.com/browse/ONBOARDING-5",
+                    "jira":"https://jira.i-novus.ru/browse/ONBOARDING-5",
                     "description":"Задание 8 -  Внедрение"
                 },
                 "created_at":"2022-11-16T12:43:18.953Z",
@@ -148,7 +148,7 @@ export const testEvents = [
                 "end_date":"2023-02-16",
                 "status":1,
                 "data":{
-                    "jira":"https://jira.blabla.com/browse/ONBOARDING-6",
+                    "jira":"https://jira.i-novus.ru/browse/ONBOARDING-6",
                     "description":"Задание 9 - Подведение итогов"
                 },
                 "created_at":"2022-11-16T12:43:18.974Z",
@@ -160,15 +160,43 @@ export const testEvents = [
     }
 ];
 
+export const testNotify = [
+    {type: 'birthday', username: 'Cмирнов С.В.', data: 'Gоздравляем с днем рождения'},
+    {type: 'achivement', username: 'Cмирнов С.В.', data: 'Отправлено 10 стикеров'},
+    {type: 'achivement', username: 'Cмирнов С.В.', data: 'Получено 10 стикеров'},
+    {type: 'birthday', username: 'Cмирнов С.В.', data: 'Gоздравляем с днем рождения'},
+    {type: 'birthday', username: 'Cмирнов С.В.', data: 'Gоздравляем с днем рождения'},
+]
+
 export const COLORS = {
     active: '#c29734',
     inactive: '#c4b07a',
-    backgroundDefault: '#0d916a',
+    backgroundDefaultDark: '#596e79',
     backgroundContainer: '#edebe1',
     borders: '#d47361',
     activeLight: '#566e34',
     inactiveLight: '#2a2b29',
-    backgroundDefaultLight: '#dfebe7',
+    backgroundDefaultLight: '#eeeeee',
     backgroundContainerLight: '#cedbba',
-    bordersLight: '#c49d54'
+    backgroundNavigatorDark: '#2c5d63',
+    backgroundNavigatorLight: '#dfebe7',
+    bordersLight: '#c49d54',
+    //icons, lines etc
+    particlesDark: '#f8fcfb',
+    particlesLight: '#004445',
+    //container headers
+    containerHeaderDark: '#283739',
+    containerHeaderLight: '#bad8b6',
+    //continer content
+    containerContentDark: '#2c5d63',
+    containerContentLight: '#eeeeee',
+    //title text
+    textTitleDark: '#f8fcfb',
+    textTitleLight: '#35495e',
+    //content text
+    textDark: '#f7f7f2',
+    textLight: '#2c5d63',
+    //buttons
+    btnDark: '#044a42',
+    btnLight: '#38817a',
 }
